@@ -4,7 +4,7 @@ const path = require('path')
 
 
 const app = express()
-
+//test
 app.use('/', serveStatic(path.join(__dirname, '/dist')))
 
 app.get(/.*/, function (req, res) {
