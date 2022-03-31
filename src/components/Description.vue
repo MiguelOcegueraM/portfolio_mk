@@ -2,7 +2,7 @@
   <article>
     <h2>About me</h2>
     <p>
-      I am a recent graduate of Telematics Engineering at the University of Colima. I have worked within software development teams for at least 1 year working as Front-End developer with technologies with Ruby on Rails and VueJs, currently I am working as a Ruby On Rails Developer within HCL Technologies using technologies like Docker, GraphQL, Postman and more.
+      I am a recent graduate of Telematics Engineering at the University of Colima. I have worked within software development teams for at least 1 year working as a web developer with technologies like Ruby on Rails and VueJs, currently I am working as a Ruby On Rails Developer within HCL Technologies using technologies like Docker, GraphQL, Postman and more.
 
       Furthermore, I like working in multidisciplinary teams where I can learn from many people and continue to grow personally and professionally while I contribute my knowledge and desire to learn more.
     </p>
