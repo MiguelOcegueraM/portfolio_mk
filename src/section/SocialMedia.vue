@@ -35,11 +35,6 @@
                 content="mikeoceguera"
                 link="https://twitter.com/mikeoceguera"
                 />
-                <SocialMediaIcons
-                title="instagram"
-                content="mikeoceguera"
-                link="https://instagram.com/mikeoceguera"
-                />
             </div>
         </div>
     </div>
