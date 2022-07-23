@@ -29,6 +29,7 @@
         <img src="../assets/icons/bootstrap.svg" alt="bootstrap" />
       </li>
       <!--<li>
+        maybe next version
         <a :href="pdf" download>
           <button>Resume</button>
         </a>
