@@ -1,7 +1,11 @@
 {
   "name": "mike_portfolio",
+  "description": "a really cool portfolio site",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
