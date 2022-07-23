@@ -3,8 +3,8 @@
     <h2>About me</h2>
     <p>
       I am a Telematics Engineer graduated from the University of Colima, currently I am working as a Software Developer in HCL Technologies executing some maintenance tasks and actively participating in charge of the development of new products for the integration of GDPR regulations through API's in existing products of the client, this with the help of technologies such as Ruby on Rails, Javascript and .NET.
-
-      I like working in multidisciplinary and international teams where I can learn from many people and continue to grow personally and professionally while I contribute my knowledge and desire to learn more.
+      <br>
+      <br>I like working in multidisciplinary and international teams where I can learn from many people and continue to grow personally and professionally while I contribute my knowledge and desire to learn more.
     </p>
     <ul>
       <li>
