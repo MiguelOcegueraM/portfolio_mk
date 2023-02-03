@@ -4,7 +4,7 @@
             <h1 ref="greeting">Hi my name is</h1>
             <h2 ref="name">Miguel Oceguera.</h2>
             <div ref="profession" @click="goToMe" class="title-wrapper">
-                <h3>Software Developer</h3>
+                <h3>UI Mobile Developer</h3>
             </div>
         </div>
         <aside class="hero-image">
