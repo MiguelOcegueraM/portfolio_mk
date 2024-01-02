@@ -2,9 +2,9 @@
   <article>
     <h2>About me</h2>
     <p>
-      I am a Telematics Engineer who graduated from the University of Colima, currently, I am working as UI Mobile Developer in HCLTech executing some maintenance tasks and actively participating in charge of the development of new products, features, and maintenance of some existing applications running with React Native for both SO iOS and Android.
+      I am a Telematics Engineer graduated from the University of Colima, currently I'm working as a Mobile Developer II at Herbalife. In my role, I handle maintenance tasks and I play an active role in the development of new products and features. Utilizing React Native, I contribute to the enhancement and maintenance of existing applications, catering to both iOS and Android platforms. I have a huge passion for continuous learning, exploring new technologies to enhance my Developer skills.
       <br>
-      <br>I like working in multidisciplinary and international teams where I can learn from many people and continue to grow personally and professionally while I contribute my knowledge and desire to learn more.
+      <br>As an enthusiastic participant in the tech community, I am an active member of Web Dev Talks in Colima as an organizer of Meetups, hackathons and workshops. My love for scientific and technological outreach drives me to contribute to the dissemination of knowledge. I really love to collaborate within diverse and international teams, fuels my personal and professional growth, allowing me to both contribute with my expertise and embrace learning opportunities.
     </p>
     <ul>
       <li>
