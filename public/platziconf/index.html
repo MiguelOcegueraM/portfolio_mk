@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mike Oceguera | PlatziConf CDMX 2026</title>
+  <meta name="description" content="Links y recursos del workshop de Claude Code en PlatziConf CDMX 2026">
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+    :root {
+      --bg: #0a0f1a;
+      --surface: #111827;
+      --surface-hover: #1a2336;
+      --border: rgba(100, 255, 218, .12);
+      --border-hover: rgba(100, 255, 218, .35);
+      --accent: #64ffda;
+      --accent2: #7b89f4;
+      --text: #ccd6f6;
+      --text-dim: #8892b0;
+      --white: #e6f1ff;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100dvh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 1rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Animated background grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(100,255,218,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(100,255,218,.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridMove 20s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes gridMove {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(60px, 60px); }
+    }
+
+    /* Glow orbs */
+    body::after {
+      content: '';
+      position: fixed;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(123,137,244,.08) 0%, transparent 70%);
+      top: -150px;
+      right: -150px;
+      pointer-events: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 440px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      position: relative;
+      z-index: 1;
+      animation: fadeUp .6s ease-out both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Badge */
+    .badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(100,255,218,.08);
+      border: 1px solid rgba(100,255,218,.2);
+      padding: .35rem .9rem;
+      border-radius: 999px;
+      animation: fadeUp .6s ease-out .1s both;
+    }
+
+    /* Avatar */
+    .avatar-wrapper {
+      position: relative;
+      animation: fadeUp .6s ease-out .15s both;
+    }
+
+    .avatar-ring {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      padding: 3px;
+      background: conic-gradient(var(--accent), var(--accent2), var(--accent));
+    }
+
+    .avatar-ring img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      border: 3px solid var(--bg);
+    }
+
+    /* Name & handle */
+    .identity {
+      text-align: center;
+      animation: fadeUp .6s ease-out .2s both;
+    }
+
+    .identity h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: .25rem;
+    }
+
+    .identity .handle {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .9rem;
+      color: var(--accent);
+    }
+
+    .identity .subtitle {
+      font-size: .85rem;
+      color: var(--text-dim);
+      margin-top: .4rem;
+    }
+
+    /* Links */
+    .links {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+      animation: fadeUp .6s ease-out .3s both;
+    }
+
+    .link-card {
+      display: flex;
+      align-items: center;
+      gap: .85rem;
+      width: 100%;
+      padding: .9rem 1.2rem;
+      border-radius: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      text-decoration: none;
+      transition: all .25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .link-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(100,255,218,.04), rgba(123,137,244,.04));
+      opacity: 0;
+      transition: opacity .25s ease;
+    }
+
+    .link-card:hover {
+      background: var(--surface-hover);
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,0,0,.3), 0 0 20px rgba(100,255,218,.05);
+    }
+
+    .link-card:hover::before {
+      opacity: 1;
+    }
+
+    .link-card .icon-wrap {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background: rgba(255,255,255,.04);
+      transition: all .25s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .link-card .icon-wrap svg {
+      width: 22px;
+      height: 22px;
+      fill: var(--text-dim);
+      transition: fill .25s ease;
+    }
+
+    .link-card .link-text {
+      position: relative;
+      z-index: 1;
+    }
+
+    .link-card .link-title {
+      font-weight: 600;
+      font-size: .9rem;
+      color: var(--white);
+      transition: color .25s ease;
+    }
+
+    .link-card .link-desc {
+      font-size: .75rem;
+      color: var(--text-dim);
+      margin-top: .1rem;
+    }
+
+    .link-card .arrow {
+      margin-left: auto;
+      color: var(--text-dim);
+      transition: all .25s ease;
+      position: relative;
+      z-index: 1;
+      font-size: 1.1rem;
+    }
+
+    .link-card:hover .arrow {
+      color: var(--accent);
+      transform: translateX(3px);
+    }
+
+    /* LinkedIn hover */
+    .link-card.linkedin:hover .icon-wrap {
+      background: rgba(10,102,194,.15);
+    }
+    .link-card.linkedin:hover .icon-wrap svg {
+      fill: #0a66c2;
+    }
+
+    /* GitHub hover */
+    .link-card.github:hover .icon-wrap {
+      background: rgba(255,255,255,.1);
+    }
+    .link-card.github:hover .icon-wrap svg {
+      fill: #ffffff;
+    }
+
+    /* Claude hover */
+    .link-card.claude:hover .icon-wrap {
+      background: rgba(217,119,87,.15);
+    }
+    .link-card.claude:hover .icon-wrap svg {
+      fill: #d97757;
+    }
+
+    /* Section divider */
+    .divider {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      animation: fadeUp .6s ease-out .25s both;
+    }
+
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .divider span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .65rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      font-size: .7rem;
+      color: var(--text-dim);
+      font-family: 'JetBrains Mono', monospace;
+      animation: fadeUp .6s ease-out .4s both;
+      opacity: .6;
+    }
+
+    @media (max-width: 480px) {
+      .identity h1 { font-size: 1.3rem; }
+      .link-card { padding: .8rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="badge">PlatziConf CDMX 2026</div>
+
+    <div class="avatar-wrapper">
+      <div class="avatar-ring">
+        <img src="/platziconf/maik.jpg" alt="Mike Oceguera">
+      </div>
+    </div>
+
+    <div class="identity">
+      <h1>Miguel Oceguera</h1>
+      <a href="https://www.linkedin.com/in/mikeoceguera/" class="handle" style="text-decoration:none;">@mikeoceguera</a>
+      <p class="subtitle">Software Engineer</p>
+    </div>
+
+    <div class="divider"><span>Connect</span></div>
+
+    <div class="links">
+      <!-- LinkedIn -->
+      <a href="https://www.linkedin.com/in/mikeoceguera/" target="_blank" rel="noopener" class="link-card linkedin">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+          </svg>
+        </div>
+        <div class="link-text">
+          <div class="link-title">LinkedIn</div>
+          <div class="link-desc">Let's connect</div>
+        </div>
+        <span class="arrow">&rsaquo;</span>
+      </a>
+
+      <!-- GitHub -->
+      <a href="#" target="_blank" rel="noopener" class="link-card github" id="github-link">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+          </svg>
+        </div>
+        <div class="link-text">
+          <div class="link-title">Workshop Repo</div>
+          <div class="link-desc">Code & examples</div>
+        </div>
+        <span class="arrow">&rsaquo;</span>
+      </a>
+    </div>
+
+    <div class="divider"><span>Workshop Resources</span></div>
+
+    <div class="links">
+      <!-- Claude Skills Docs -->
+      <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener" class="link-card claude">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4.709 15.955l4.72-2.647.08-.23-.08-.128H9.2l-.79-.048-2.698-.073-2.339-.097-2.266-.122-.571-.121L0 11.784l.055-.352.48-.321.686.06 1.52.103 2.278.158 1.652.097 2.449.255h.389l.055-.157-.134-.098-.103-.097-2.358-1.596-2.552-1.688-1.336-.972-.724-.491-.364-.462-.158-1.008.656-.722.881.06.225.061.893.686 1.908 1.476 2.491 1.833.365.304.145-.103.019-.073-.164-.274-1.355-2.446-1.446-2.49-.644-1.032-.17-.619a2.97 2.97 0 01-.104-.729L6.283.134 6.696 0l.996.134.42.364.62 1.414 1.002 2.229 1.555 3.03.456.898.243.832.091.255h.158V9.01l.128-1.706.237-2.095.23-2.695.08-.76.376-.91.747-.492.584.28.48.685-.067.444-.286 1.851-.559 2.903-.364 1.942h.212l.243-.242.985-1.306 1.652-2.064.73-.82.85-.904.547-.431h1.033l.76 1.129-.34 1.166-1.064 1.347-.881 1.142-1.264 1.7-.79 1.36.073.11.188-.02 2.856-.606 1.543-.28 1.841-.315.833.388.091.395-.328.807-1.969.486-2.309.462-3.439.813-.042.03.049.061 1.549.146.662.036h1.622l3.02.225.79.522.474.638-.079.485-1.215.62-1.64-.389-3.829-.91-1.312-.329h-.182v.11l1.093 1.068 2.006 1.81 2.509 2.33.127.578-.322.455-.34-.049-2.205-1.657-.851-.747-1.926-1.62h-.128v.17l.444.649 2.345 3.521.122 1.08-.17.353-.608.213-.668-.122-1.374-1.925-1.415-2.167-1.143-1.943-.14.08-.674 7.254-.316.37-.729.28-.607-.461-.322-.747.322-1.476.389-1.924.315-1.53.286-1.9.17-.632-.012-.042-.14.018-1.434 1.967-2.18 2.945-1.726 1.845-.414.164-.717-.37.067-.662.401-.589 2.388-3.036 1.44-1.882.93-1.086-.006-.158h-.055L4.132 18.56l-1.13.146-.487-.456.061-.746.231-.243 1.908-1.312-.006.006z" fill-rule="nonzero"/>
+          </svg>
+        </div>
+        <div class="link-text">
+          <div class="link-title">Skills Docs</div>
+          <div class="link-desc">Official specification</div>
+        </div>
+        <span class="arrow">&rsaquo;</span>
+      </a>
+
+      <!-- Claude Subagents Docs -->
+      <a href="https://code.claude.com/docs/en/sub-agents" target="_blank" rel="noopener" class="link-card claude">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4.709 15.955l4.72-2.647.08-.23-.08-.128H9.2l-.79-.048-2.698-.073-2.339-.097-2.266-.122-.571-.121L0 11.784l.055-.352.48-.321.686.06 1.52.103 2.278.158 1.652.097 2.449.255h.389l.055-.157-.134-.098-.103-.097-2.358-1.596-2.552-1.688-1.336-.972-.724-.491-.364-.462-.158-1.008.656-.722.881.06.225.061.893.686 1.908 1.476 2.491 1.833.365.304.145-.103.019-.073-.164-.274-1.355-2.446-1.446-2.49-.644-1.032-.17-.619a2.97 2.97 0 01-.104-.729L6.283.134 6.696 0l.996.134.42.364.62 1.414 1.002 2.229 1.555 3.03.456.898.243.832.091.255h.158V9.01l.128-1.706.237-2.095.23-2.695.08-.76.376-.91.747-.492.584.28.48.685-.067.444-.286 1.851-.559 2.903-.364 1.942h.212l.243-.242.985-1.306 1.652-2.064.73-.82.85-.904.547-.431h1.033l.76 1.129-.34 1.166-1.064 1.347-.881 1.142-1.264 1.7-.79 1.36.073.11.188-.02 2.856-.606 1.543-.28 1.841-.315.833.388.091.395-.328.807-1.969.486-2.309.462-3.439.813-.042.03.049.061 1.549.146.662.036h1.622l3.02.225.79.522.474.638-.079.485-1.215.62-1.64-.389-3.829-.91-1.312-.329h-.182v.11l1.093 1.068 2.006 1.81 2.509 2.33.127.578-.322.455-.34-.049-2.205-1.657-.851-.747-1.926-1.62h-.128v.17l.444.649 2.345 3.521.122 1.08-.17.353-.608.213-.668-.122-1.374-1.925-1.415-2.167-1.143-1.943-.14.08-.674 7.254-.316.37-.729.28-.607-.461-.322-.747.322-1.476.389-1.924.315-1.53.286-1.9.17-.632-.012-.042-.14.018-1.434 1.967-2.18 2.945-1.726 1.845-.414.164-.717-.37.067-.662.401-.589 2.388-3.036 1.44-1.882.93-1.086-.006-.158h-.055L4.132 18.56l-1.13.146-.487-.456.061-.746.231-.243 1.908-1.312-.006.006z" fill-rule="nonzero"/>
+          </svg>
+        </div>
+        <div class="link-text">
+          <div class="link-title">Subagents Docs</div>
+          <div class="link-desc">Official specification</div>
+        </div>
+        <span class="arrow">&rsaquo;</span>
+      </a>
+
+      <!-- Anthropic Blog -->
+      <a href="https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills" target="_blank" rel="noopener" class="link-card claude">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4.709 15.955l4.72-2.647.08-.23-.08-.128H9.2l-.79-.048-2.698-.073-2.339-.097-2.266-.122-.571-.121L0 11.784l.055-.352.48-.321.686.06 1.52.103 2.278.158 1.652.097 2.449.255h.389l.055-.157-.134-.098-.103-.097-2.358-1.596-2.552-1.688-1.336-.972-.724-.491-.364-.462-.158-1.008.656-.722.881.06.225.061.893.686 1.908 1.476 2.491 1.833.365.304.145-.103.019-.073-.164-.274-1.355-2.446-1.446-2.49-.644-1.032-.17-.619a2.97 2.97 0 01-.104-.729L6.283.134 6.696 0l.996.134.42.364.62 1.414 1.002 2.229 1.555 3.03.456.898.243.832.091.255h.158V9.01l.128-1.706.237-2.095.23-2.695.08-.76.376-.91.747-.492.584.28.48.685-.067.444-.286 1.851-.559 2.903-.364 1.942h.212l.243-.242.985-1.306 1.652-2.064.73-.82.85-.904.547-.431h1.033l.76 1.129-.34 1.166-1.064 1.347-.881 1.142-1.264 1.7-.79 1.36.073.11.188-.02 2.856-.606 1.543-.28 1.841-.315.833.388.091.395-.328.807-1.969.486-2.309.462-3.439.813-.042.03.049.061 1.549.146.662.036h1.622l3.02.225.79.522.474.638-.079.485-1.215.62-1.64-.389-3.829-.91-1.312-.329h-.182v.11l1.093 1.068 2.006 1.81 2.509 2.33.127.578-.322.455-.34-.049-2.205-1.657-.851-.747-1.926-1.62h-.128v.17l.444.649 2.345 3.521.122 1.08-.17.353-.608.213-.668-.122-1.374-1.925-1.415-2.167-1.143-1.943-.14.08-.674 7.254-.316.37-.729.28-.607-.461-.322-.747.322-1.476.389-1.924.315-1.53.286-1.9.17-.632-.012-.042-.14.018-1.434 1.967-2.18 2.945-1.726 1.845-.414.164-.717-.37.067-.662.401-.589 2.388-3.036 1.44-1.882.93-1.086-.006-.158h-.055L4.132 18.56l-1.13.146-.487-.456.061-.746.231-.243 1.908-1.312-.006.006z" fill-rule="nonzero"/>
+          </svg>
+        </div>
+        <div class="link-text">
+          <div class="link-title">Equipping Agents with Skills</div>
+          <div class="link-desc">Anthropic engineering blog</div>
+        </div>
+        <span class="arrow">&rsaquo;</span>
+      </a>
+    </div>
+
+    <p class="footer">PlatziConf CDMX 2026 // Claude Code Workshop</p>
+  </div>
+</body>
+</html>
