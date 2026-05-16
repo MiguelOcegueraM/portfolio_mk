@@ -270,6 +270,24 @@
       fill: #d97757;
     }
 
+    /* WDT hover */
+    .link-card.wdt:hover .icon-wrap {
+      background: rgba(74,144,226,.15);
+    }
+
+    /* JSConf hover */
+    .link-card.jsconf:hover .icon-wrap {
+      background: rgba(234,186,58,.15);
+    }
+
+    /* Image icons inside icon-wrap */
+    .link-card .icon-wrap img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      border-radius: 0;
+    }
+
     /* Section divider */
     .divider {
       width: 100%;
@@ -399,6 +417,34 @@
         <div class="link-text">
           <div class="link-title">Equipping Agents with Skills</div>
           <div class="link-desc">Anthropic engineering blog</div>
+        </div>
+        <span class="arrow">&rsaquo;</span>
+      </a>
+    </div>
+
+    <div class="divider"><span>Community</span></div>
+
+    <div class="links">
+      <!-- Web Dev Talks -->
+      <a href="https://www.webdevtalks.mx/" target="_blank" rel="noopener" class="link-card wdt">
+        <div class="icon-wrap">
+          <img src="/platziconf/wdt-logo.png" alt="Web Dev Talks">
+        </div>
+        <div class="link-text">
+          <div class="link-title">Web Dev Talks</div>
+          <div class="link-desc">Community meetups</div>
+        </div>
+        <span class="arrow">&rsaquo;</span>
+      </a>
+
+      <!-- JSConf MX -->
+      <a href="https://www.jsconf.mx/en" target="_blank" rel="noopener" class="link-card jsconf">
+        <div class="icon-wrap">
+          <img src="/platziconf/jsconf-logo.png" alt="JSConf MX">
+        </div>
+        <div class="link-text">
+          <div class="link-title">JSConf MX</div>
+          <div class="link-desc">JavaScript conference</div>
         </div>
         <span class="arrow">&rsaquo;</span>
       </a>
