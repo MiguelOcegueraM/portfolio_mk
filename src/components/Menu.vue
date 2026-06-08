@@ -7,10 +7,11 @@
       alt="close menu icon"
     />
     <ul @click="$emit('close')">
-      <li><a @click="goTo('about')">About</a></li>
-      <li><a @click="goTo('experience')">Experience</a></li>
-      <li><a @click="goTo('skills')">Skills</a></li>
-      <li><a @click="goTo('contact')">Contact</a></li>
+      <li><router-link :to="{ path: '/my-work' }">Work</router-link></li>
+      <li><router-link :to="{ path: '/', hash: '#about' }">About</router-link></li>
+      <li><router-link :to="{ path: '/', hash: '#experience' }">Experience</router-link></li>
+      <li><router-link :to="{ path: '/', hash: '#skills' }">Skills</router-link></li>
+      <li><router-link :to="{ path: '/', hash: '#contact' }">Contact</router-link></li>
     </ul>
     <div class="menu-footer">
       <a href="mailto:miguel@pinacly.io" class="menu-email">miguel@pinacly.io</a>
@@ -21,11 +22,6 @@
 <script>
 export default {
   name: "Menu",
-  methods: {
-    goTo(id) {
-      document.getElementById(id).scrollIntoView({ behavior: "smooth" });
-    },
-  },
 };
 </script>
 
@@ -60,7 +56,8 @@ a {
   transition: color 0.2s ease;
 }
 
-a:hover {
+a:hover,
+a.router-link-active {
   color: var(--accent, #64ffda);
 }
 

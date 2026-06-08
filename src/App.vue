@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <AuroraBackdrop />
+
     <transition name="menu-transition">
       <Menu v-if="showMenu" class="menu-bar" v-on:close="showMenu = false" />
     </transition>
@@ -22,34 +24,19 @@
       </svg>
     </nav>
 
-    <HeroSection id="hero" />
-    <AboutSection id="about" />
-    <ExperienceSection id="experience" />
-    <SkillsSection id="skills" />
-    <CTASection id="contact" />
-    <FooterSection />
+    <router-view />
   </div>
 </template>
 
 <script>
-import HeroSection from "./section/HeroSection";
-import AboutSection from "./section/AboutSection";
-import ExperienceSection from "./section/ExperienceSection";
-import SkillsSection from "./section/SkillsSection";
-import CTASection from "./section/CTASection";
-import FooterSection from "./section/FooterSection";
 import Menu from "./components/Menu";
+import AuroraBackdrop from "./components/AuroraBackdrop.vue";
 
 export default {
   name: "App",
   components: {
-    HeroSection,
-    AboutSection,
-    ExperienceSection,
-    SkillsSection,
-    CTASection,
-    FooterSection,
     Menu,
+    AuroraBackdrop,
   },
   data() {
     return {
@@ -58,15 +45,9 @@ export default {
   },
   methods: {
     scrollToTop() {
-      document.getElementById("app").scrollIntoView({ behavior: "smooth" });
+      this.$router.push("/").catch(() => {});
+      window.scrollTo({ top: 0, behavior: "smooth" });
     },
-  },
-  metaInfo: {
-    title: "Miguel Oceguera | Software Engineer & Freelance Developer",
-    meta: [
-      { name: "theme-color", content: "#0f0f0f" },
-      { name: "description", content: "Miguel Oceguera - Sr. Technology Consultant, Software Engineer, and Freelance Developer. Let's build together." },
-    ],
   },
 };
 </script>

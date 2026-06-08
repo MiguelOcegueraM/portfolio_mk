@@ -1,16 +1,20 @@
 <template>
-  <section class="skills">
-    <div class="container">
-      <h2 class="section-title"><span class="number">03.</span> Skills & Tools</h2>
-
-      <div class="skills-grid">
-        <div v-for="category in categories" :key="category.title" class="skill-category">
-          <h3>{{ category.title }}</h3>
-          <div class="skill-items">
-            <span v-for="skill in category.items" :key="skill" class="skill-item">
-              {{ skill }}
-            </span>
-          </div>
+  <section class="skills" ref="section">
+    <div class="inner">
+      <p class="eyebrow">// Skills &amp; tools</p>
+      <div class="categories">
+        <div
+          v-for="cat in categories"
+          :key="cat.title"
+          class="category"
+          :class="{ featured: cat.title === 'AI & Intelligent Systems' }"
+        >
+          <h3 class="cat-label">{{ cat.title }}</h3>
+          <p class="cat-items">
+            <template v-for="(item, i) in cat.items">
+              <span :key="`${cat.title}-${item}`" class="item">{{ item }}</span><span v-if="i < cat.items.length - 1" :key="`${cat.title}-sep-${i}`" class="dot">·</span>
+            </template>
+          </p>
         </div>
       </div>
     </div>
@@ -60,101 +64,89 @@ export default {
       ],
     };
   },
+  mounted() {
+    const el = this.$refs.section;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { el.classList.add("entered"); return; }
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add("entered"); obs.disconnect(); }
+      }),
+      { threshold: 0.1, rootMargin: "0px 0px -60px 0px" }
+    );
+    obs.observe(el);
+    this._obs = obs;
+  },
+  beforeDestroy() { if (this._obs) this._obs.disconnect(); },
 };
 </script>
 
 <style lang="scss" scoped>
 .skills {
-  padding: 8em 2em;
-  background: var(--bg-secondary);
-}
-
-.container {
-  max-width: 1100px;
+  padding: clamp(6em, 10vw, 10em) clamp(1.5em, 5vw, 6em);
+  max-width: 1000px;
   margin: 0 auto;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 700ms cubic-bezier(0.215, 0.61, 0.355, 1),
+              transform 700ms cubic-bezier(0.215, 0.61, 0.355, 1);
+
+  &.entered { opacity: 1; transform: none; }
 }
 
-.section-title {
-  font-size: clamp(28px, 3.5vw, 42px);
-  font-weight: 800;
-  margin-bottom: 2em;
-
-  .number {
-    font-family: var(--font-mono);
-    color: var(--accent);
-    font-size: 0.6em;
-    font-weight: 500;
-    margin-right: 0.5em;
-  }
-}
-
-.skills-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2em;
-}
-
-.skill-category {
-  padding: 2em;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  transition: border-color 0.3s ease;
-
-  &:hover {
-    border-color: rgba(100,255,218,0.2);
-  }
-
-  &:first-child {
-    grid-column: 1 / -1;
-    background: linear-gradient(135deg, var(--bg-card) 0%, rgba(100,255,218,0.03) 100%);
-    border-color: rgba(100,255,218,0.15);
-  }
-
-  h3 {
-    font-weight: 700;
-    margin-bottom: 1.2em;
-    color: var(--accent);
-    font-family: var(--font-mono);
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-}
-
-.skill-items {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6em;
-}
-
-.skill-item {
-  padding: 0.4em 1em;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--border);
-  border-radius: 6px;
+.eyebrow {
+  font-family: var(--font-mono);
   font-size: 14px;
-  color: var(--text-secondary);
-  transition: all 0.2s ease;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  margin-bottom: 3em;
+}
 
-  &:hover {
-    color: var(--accent);
-    border-color: var(--accent);
-    background: rgba(100,255,218,0.05);
-  }
+.categories {
+  display: flex;
+  flex-direction: column;
+  gap: 3em;
+}
+
+.category {
+  padding-bottom: 2em;
+  border-bottom: 1px solid var(--border);
+
+  &:last-child { border-bottom: none; }
+}
+
+.cat-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-bottom: 1em;
+}
+
+.cat-items {
+  font-size: clamp(16px, 1.2vw, 20px);
+  line-height: 1.8;
+  color: var(--text-primary);
+}
+
+.featured .cat-items {
+  font-size: clamp(18px, 1.4vw, 24px);
+}
+
+.item {
+  transition: color 0.2s ease;
+
+  &:hover { color: var(--accent); cursor: default; }
+}
+
+.dot {
+  color: var(--text-muted);
+  margin: 0 0.5em;
 }
 
 @media (max-width: 768px) {
-  .skills {
-    padding: 5em 1.5em;
-  }
-
-  .skills-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .skill-category:first-child {
-    grid-column: auto;
-  }
+  .categories { gap: 2.5em; }
 }
 </style>

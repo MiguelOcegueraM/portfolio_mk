@@ -1,46 +1,45 @@
 <template>
-  <section class="experience">
-    <div class="container">
-      <h2 class="section-title"><span class="number">02.</span> Experience</h2>
+  <section class="experience" ref="section">
+    <div class="inner">
+      <p class="eyebrow">// Experience</p>
 
-      <div class="timeline">
-        <div
+      <ul class="jobs">
+        <li
           v-for="(job, index) in jobs"
           :key="index"
-          class="timeline-item"
+          class="job"
           :class="{ active: activeJob === index }"
-          @click="activeJob = index"
         >
-          <div class="timeline-marker">
-            <span class="dot"></span>
-            <span class="line" v-if="index < jobs.length - 1"></span>
-          </div>
-          <div class="timeline-content">
-            <div class="job-header">
-              <h3>{{ job.title }}</h3>
-              <span class="company">@ {{ job.company }}</span>
-            </div>
-            <div class="job-meta">
+          <button class="job-trigger" @click="toggle(index)" :aria-expanded="activeJob === index">
+            <div class="job-head">
+              <h3 class="company">{{ job.company }}</h3>
               <span class="period">{{ job.period }}</span>
+            </div>
+            <div class="job-subhead">
+              <span class="title">{{ job.title }}</span>
               <span class="location">{{ job.location }}</span>
             </div>
-            <ul class="job-details" v-if="activeJob === index">
-              <li v-for="(detail, i) in job.details" :key="i">{{ detail }}</li>
-            </ul>
-            <div class="job-tags" v-if="activeJob === index && job.tags">
-              <span v-for="tag in job.tags" :key="tag" class="tag">{{ tag }}</span>
+          </button>
+          <transition name="accordion" @enter="onEnter" @leave="onLeave">
+            <div v-if="activeJob === index" class="job-body">
+              <ul class="details">
+                <li v-for="(d, i) in job.details" :key="i">{{ d }}</li>
+              </ul>
+              <div class="tags" v-if="job.tags">
+                <span v-for="t in job.tags" :key="t" class="tag">{{ t }}</span>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
+          </transition>
+        </li>
+      </ul>
 
       <div class="education">
-        <h3 class="subsection-title">Education</h3>
-        <div class="edu-card">
-          <h4>BSc in Telematics Engineering</h4>
-          <p>Universidad de Colima</p>
+        <p class="eyebrow education-eyebrow">// Education</p>
+        <div class="edu-row">
+          <h3 class="edu-school">Universidad de Colima</h3>
           <span class="period">2017 - 2021</span>
         </div>
+        <p class="edu-degree">BSc in Telematics Engineering</p>
       </div>
     </div>
   </section>
@@ -128,211 +127,206 @@ export default {
       ],
     };
   },
+  mounted() {
+    const el = this.$refs.section;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { el.classList.add("entered"); return; }
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add("entered"); obs.disconnect(); }
+      }),
+      { threshold: 0.1, rootMargin: "0px 0px -60px 0px" }
+    );
+    obs.observe(el);
+    this._obs = obs;
+  },
+  beforeDestroy() { if (this._obs) this._obs.disconnect(); },
+  methods: {
+    toggle(index) {
+      this.activeJob = this.activeJob === index ? null : index;
+    },
+    onEnter(el) { el.style.maxHeight = el.scrollHeight + "px"; },
+    onLeave(el) { el.style.maxHeight = "0"; },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .experience {
-  padding: 8em 2em;
-  background: var(--bg-primary);
-}
-
-.container {
-  max-width: 900px;
+  padding: clamp(6em, 10vw, 10em) clamp(1.5em, 5vw, 6em);
+  max-width: 1000px;
   margin: 0 auto;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 700ms cubic-bezier(0.215, 0.61, 0.355, 1),
+              transform 700ms cubic-bezier(0.215, 0.61, 0.355, 1);
+
+  &.entered { opacity: 1; transform: none; }
 }
 
-.section-title {
-  font-size: clamp(28px, 3.5vw, 42px);
-  font-weight: 800;
-  margin-bottom: 2em;
-
-  .number {
-    font-family: var(--font-mono);
-    color: var(--accent);
-    font-size: 0.6em;
-    font-weight: 500;
-    margin-right: 0.5em;
-  }
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  margin-bottom: 3em;
 }
 
-.timeline {
-  position: relative;
-}
-
-.timeline-item {
-  display: flex;
-  gap: 1.5em;
-  cursor: pointer;
-  padding-bottom: 1em;
-}
-
-.timeline-marker {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex-shrink: 0;
-  padding-top: 6px;
-
-  .dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    border: 2px solid var(--border);
-    background: var(--bg-primary);
-    transition: all 0.3s ease;
-    z-index: 1;
-  }
-
-  .line {
-    width: 2px;
-    flex: 1;
-    background: var(--border);
-    margin-top: 4px;
-  }
-}
-
-.timeline-item.active .timeline-marker .dot,
-.timeline-item:hover .timeline-marker .dot {
-  border-color: var(--accent);
-  background: var(--accent);
-  box-shadow: 0 0 12px rgba(100,255,218,0.3);
-}
-
-.timeline-content {
-  flex: 1;
-  padding: 1em 1.5em;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  margin-bottom: 1em;
-  transition: border-color 0.3s ease;
-}
-
-.timeline-item.active .timeline-content,
-.timeline-item:hover .timeline-content {
-  border-color: rgba(100,255,218,0.2);
-}
-
-.job-header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.5em;
-  margin-bottom: 0.3em;
-
-  h3 {
-    font-size: clamp(16px, 1.3vw, 20px);
-    font-weight: 700;
-  }
-
-  .company {
-    color: var(--accent);
-    font-family: var(--font-mono);
-    font-size: 14px;
-    font-weight: 500;
-  }
-}
-
-.job-meta {
-  display: flex;
-  gap: 1.5em;
-  margin-bottom: 1em;
-
-  span {
-    font-size: 13px;
-    color: var(--text-muted);
-    font-family: var(--font-mono);
-  }
-}
-
-.job-details {
+.jobs {
   list-style: none;
   padding: 0;
+  margin: 0;
+}
+
+.job {
+  border-bottom: 1px solid var(--border);
+
+  &:first-child { border-top: 1px solid var(--border); }
+
+  &.active .job-trigger,
+  .job-trigger:hover {
+    .company { color: var(--accent); }
+  }
+}
+
+.job-trigger {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  padding: 2em 0;
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+}
+
+.job-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 2em;
+  flex-wrap: wrap;
+}
+
+.company {
+  font-size: clamp(22px, 2vw, 28px);
+  font-weight: 700;
+  color: var(--text-primary);
+  transition: color 0.2s ease;
+  margin: 0;
+}
+
+.period {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.job-subhead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 2em;
+  flex-wrap: wrap;
+  margin-top: 0.4em;
+}
+
+.title {
+  font-size: clamp(15px, 1.1vw, 17px);
+  color: var(--text-secondary);
+}
+
+.location {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.job-body {
+  overflow: hidden;
+  padding-bottom: 2em;
+}
+
+.details {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-width: 70ch;
 
   li {
     position: relative;
     padding-left: 1.5em;
     margin-bottom: 0.8em;
-    font-size: 14px;
+    font-size: clamp(14px, 1vw, 16px);
     color: var(--text-secondary);
-    line-height: 1.7;
+    line-height: 1.75;
 
     &::before {
-      content: ">";
+      content: "›";
       position: absolute;
       left: 0;
       color: var(--accent);
       font-family: var(--font-mono);
-      font-weight: 700;
     }
   }
 }
 
-.job-tags {
+.tags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5em;
-  margin-top: 1em;
+  margin-top: 1.4em;
 }
 
 .tag {
-  padding: 0.25em 0.75em;
-  background: rgba(100,255,218,0.08);
-  color: var(--accent);
-  font-size: 12px;
   font-family: var(--font-mono);
-  border-radius: 4px;
-  border: 1px solid rgba(100,255,218,0.15);
+  font-size: 11px;
+  padding: 0.3em 0.8em;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  letter-spacing: 0.03em;
+}
+
+.accordion-enter-active,
+.accordion-leave-active {
+  transition: max-height 500ms cubic-bezier(0.215, 0.61, 0.355, 1),
+              opacity 400ms ease;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+.accordion-enter-to,
+.accordion-leave {
+  opacity: 1;
 }
 
 .education {
-  margin-top: 4em;
+  margin-top: 6em;
 }
 
-.subsection-title {
-  font-size: 20px;
+.education-eyebrow { margin-bottom: 2em; }
+
+.edu-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 2em;
+  flex-wrap: wrap;
+  padding: 2em 0 0.4em;
+  border-top: 1px solid var(--border);
+}
+
+.edu-school {
+  font-size: clamp(20px, 1.7vw, 24px);
   font-weight: 700;
-  margin-bottom: 1em;
+  margin: 0;
+}
+
+.edu-degree {
+  font-size: 15px;
   color: var(--text-secondary);
-}
-
-.edu-card {
-  padding: 1.5em;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-
-  h4 {
-    font-size: 17px;
-    margin-bottom: 0.3em;
-  }
-
-  p {
-    color: var(--text-secondary);
-    font-size: 14px;
-    margin-bottom: 0.3em;
-  }
-
-  .period {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    color: var(--text-muted);
-  }
-}
-
-@media (max-width: 768px) {
-  .experience {
-    padding: 5em 1.5em;
-  }
-
-  .timeline-content {
-    padding: 1em;
-  }
-
-  .job-meta {
-    flex-direction: column;
-    gap: 0.3em;
-  }
+  margin-top: 0.2em;
 }
 </style>
