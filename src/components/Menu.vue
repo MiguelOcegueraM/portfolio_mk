@@ -7,7 +7,7 @@
       alt="close menu icon"
     />
     <ul @click="$emit('close')">
-      <li><router-link :to="{ path: '/my-work' }">Work</router-link></li>
+      <li><a href="/my-work">Work</a></li>
       <li><router-link :to="{ path: '/', hash: '#about' }">About</router-link></li>
       <li><router-link :to="{ path: '/', hash: '#experience' }">Experience</router-link></li>
       <li><router-link :to="{ path: '/', hash: '#skills' }">Skills</router-link></li>

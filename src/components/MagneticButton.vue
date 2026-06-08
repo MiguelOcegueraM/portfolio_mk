@@ -114,7 +114,7 @@ export default {
   color: var(--bg-primary);
 
   &:hover {
-    background: lighten(#64ffda, 4%);
+    background: #78ffe0;
   }
 }
 

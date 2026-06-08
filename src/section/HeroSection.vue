@@ -12,7 +12,7 @@
     </p>
     <div ref="cta" class="hero-actions">
       <MagneticButton href="#contact" variant="primary">Let's build together</MagneticButton>
-      <MagneticButton to="/my-work" variant="secondary">See my work</MagneticButton>
+      <MagneticButton href="/my-work" variant="secondary">See my work</MagneticButton>
     </div>
     <div class="scroll-indicator" @click="scrollToAbout" aria-hidden="true">
       <span></span>
