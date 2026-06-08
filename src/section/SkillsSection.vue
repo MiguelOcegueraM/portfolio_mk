@@ -126,9 +126,15 @@ export default {
 }
 
 .cat-items {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.4em;
+  row-gap: 0.2em;
   font-size: clamp(16px, 1.2vw, 20px);
   line-height: 1.8;
   color: var(--text-primary);
+  overflow-wrap: anywhere;
 }
 
 .featured .cat-items {
@@ -143,7 +149,6 @@ export default {
 
 .dot {
   color: var(--text-muted);
-  margin: 0 0.5em;
 }
 
 @media (max-width: 768px) {
