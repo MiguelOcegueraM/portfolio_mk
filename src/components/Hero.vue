@@ -12,7 +12,7 @@
                 @mouseenter="imagePopup"
                 @mouseleave="imagePopdown"
                 ref="img"
-                src="../assets/images/maik.jpg" 
+                src="../assets/images/maik.png" 
                 alt="Miguel's Portrait"
             />
         </aside>

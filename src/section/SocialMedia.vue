@@ -4,7 +4,7 @@
         <div class="find-me-container">
             <img
                 ref="img"
-                src="../assets/images/maik.jpg"
+                src="../assets/images/maik.png"
                 alt="Miguel's picture"
                 @mouseenter="imagePopup"
                 @mouseleave="imagePopdown"
